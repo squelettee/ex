@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  wallet     String   @unique
+  lastSeen   DateTime
+  name       String?
+  bio        String?
+  image      String?
+  tokens     Int      @default(0)
+  referral   String?  @default("")
+  onboarded      Boolean  @default(false)
+  likes      UserLikes[]     @relation("UserLikesFrom")
+  likedBy    UserLikes[]     @relation("UserLikesTo")
+  dislikes   UserDislikes[]  @relation("UserDislikesFrom")
+  dislikedBy UserDislikes[]  @relation("UserDislikesTo")
+  messagesSent     Message[] @relation("MessagesSent")
+  messagesReceived Message[] @relation("MessagesReceived")
+
+  visitedX Boolean @default(false)
+  visitedInstagram Boolean @default(false)
+  visitedTiktok Boolean @default(false)
+  visitedYoutube Boolean @default(false)
+  visitedTelegram Boolean @default(false)
+  lastDailyClaim DateTime?
+}
+
+model UserLikes {
+  from   User @relation("UserLikesFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  fromId String
+  to     User @relation("UserLikesTo", fields: [toId], references: [id], onDelete: Cascade)
+  toId   String
+
+  @@id([fromId, toId])
+  @@unique([fromId, toId])
+}
+
+model UserDislikes {
+  from   User @relation("UserDislikesFrom", fields: [fromId], references: [id], onDelete: Cascade)
+  fromId String
+  to     User @relation("UserDislikesTo", fields: [toId], references: [id], onDelete: Cascade)
+  toId   String
+
+  @@id([fromId, toId])
+  @@unique([fromId, toId])
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  fromUser  User     @relation("MessagesSent", fields: [fromUserId], references: [id])
+  fromUserId String
+  toUser    User     @relation("MessagesReceived", fields: [toUserId], references: [id])
+  toUserId   String
+  content   String
+
+  @@index([fromUserId, toUserId])
+}
