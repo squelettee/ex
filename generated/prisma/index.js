@@ -181,7 +181,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
@@ -202,7 +202,7 @@ const config = {
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id               String         @id @default(uuid())\n  createdAt        DateTime       @default(now())\n  wallet           String         @unique\n  lastSeen         DateTime\n  name             String?\n  bio              String?\n  image            String?\n  tokens           Int            @default(0)\n  referral         String?        @default(\"\")\n  onboarded        Boolean        @default(false)\n  likes            UserLikes[]    @relation(\"UserLikesFrom\")\n  likedBy          UserLikes[]    @relation(\"UserLikesTo\")\n  dislikes         UserDislikes[] @relation(\"UserDislikesFrom\")\n  dislikedBy       UserDislikes[] @relation(\"UserDislikesTo\")\n  messagesSent     Message[]      @relation(\"MessagesSent\")\n  messagesReceived Message[]      @relation(\"MessagesReceived\")\n\n  visitedX         Boolean   @default(false)\n  visitedInstagram Boolean   @default(false)\n  visitedTiktok    Boolean   @default(false)\n  visitedYoutube   Boolean   @default(false)\n  visitedTelegram  Boolean   @default(false)\n  lastDailyClaim   DateTime?\n}\n\nmodel UserLikes {\n  from   User   @relation(\"UserLikesFrom\", fields: [fromId], references: [id], onDelete: Cascade)\n  fromId String\n  to     User   @relation(\"UserLikesTo\", fields: [toId], references: [id], onDelete: Cascade)\n  toId   String\n\n  @@id([fromId, toId])\n  @@unique([fromId, toId])\n}\n\nmodel UserDislikes {\n  from   User   @relation(\"UserDislikesFrom\", fields: [fromId], references: [id], onDelete: Cascade)\n  fromId String\n  to     User   @relation(\"UserDislikesTo\", fields: [toId], references: [id], onDelete: Cascade)\n  toId   String\n\n  @@id([fromId, toId])\n  @@unique([fromId, toId])\n}\n\nmodel Message {\n  id         String   @id @default(uuid())\n  createdAt  DateTime @default(now())\n  fromUser   User     @relation(\"MessagesSent\", fields: [fromUserId], references: [id])\n  fromUserId String\n  toUser     User     @relation(\"MessagesReceived\", fields: [toUserId], references: [id])\n  toUserId   String\n  content    String\n\n  @@index([fromUserId, toUserId])\n}\n",
   "inlineSchemaHash": "c88787cb8d2f5c736284103b96873ad6757343a42366cf691a8eabc8e1930f3d",
-  "copyEngine": true
+  "copyEngine": false
 }
 
 const fs = require('fs')
@@ -239,9 +239,3 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
-// file annotations for bundling tools to include these files
-path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
-path.join(process.cwd(), "generated/prisma/libquery_engine-darwin-arm64.dylib.node")
-// file annotations for bundling tools to include these files
-path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "generated/prisma/schema.prisma")
