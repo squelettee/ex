@@ -15,30 +15,35 @@ const SOCIALS = [
     key: "x" as const,
     label: "Follow on X",
     url: "https://x.com/myExonsol?t=kXhXt-D6Y6muXLmZxqtnFg&s=09",
+    appUrl: "twitter://user?screen_name=myExonsol",
     field: "visitedX" as const,
   },
   {
     key: "instagram" as const,
     label: "Follow on Instagram",
     url: "https://www.instagram.com/exonsol/",
+    appUrl: "instagram://user?username=exonsol",
     field: "visitedInstagram" as const,
   },
   {
     key: "tiktok" as const,
     label: "Follow on TikTok",
     url: "https://www.tiktok.com/@exonsol?_t=ZN-8vkWKxytwpi&_r=1",
+    appUrl: "tiktok://user/@exonsol",
     field: "visitedTiktok" as const,
   },
   {
     key: "youtube" as const,
     label: "Subscribe on YouTube",
     url: "https://www.youtube.com/@exonsolana",
+    appUrl: "youtube://channel/UCexonsolana",
     field: "visitedYoutube" as const,
   },
   {
     key: "telegram" as const,
     label: "Join Telegram",
     url: "https://t.me/myexonsol",
+    appUrl: "tg://resolve?domain=myexonsol",
     field: "visitedTelegram" as const,
   },
 ];
@@ -74,13 +79,21 @@ export default function ChallengeTokenClient({ user: initialUser }: { user: User
     if (!user || !publicKey) return;
     setLoading(socialKey);
 
-    // Open social media link in new tab
-    window.open(url, '_blank');
+    const social = SOCIALS.find(s => s.key === socialKey)!;
+
+    // Try to open native app first
+    try {
+      window.location.href = social.appUrl;
+      // Wait a bit to see if the app opens
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    } catch {
+      // If native app fails, open in browser
+      window.open(url, '_blank');
+    }
 
     // Claim tokens
     const res = await claimSocialMission(publicKey.toBase58(), socialKey);
     if (res.success && !res.alreadyClaimed) {
-      const social = SOCIALS.find(s => s.key === socialKey)!;
       setUser({ ...user, tokens: res.tokens, [social.field]: true });
     }
     setLoading(null);
