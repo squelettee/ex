@@ -8,7 +8,7 @@ import { CoinsIcon, HeartIcon, MessageCircleHeart, SettingsIcon, XIcon } from "l
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { User } from "../../../generated/prisma";
 
 type UserWithRelations = User & {
@@ -21,7 +21,12 @@ export default function DashboardClient({ usersProps, user }: { usersProps: User
   const { connected, publicKey } = useWallet();
   const [users, setUsers] = useState<UserWithRelations[]>(usersProps);
   const router = useRouter();
-  const [likeAnimation, setLikeAnimation] = useState<{ id: string | null, type: 'like' | 'dislike' | null }>({ id: null, type: null });
+
+  const [cardTransform, setCardTransform] = useState({ x: 0, y: 0, rotation: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  const [isProcessingSwipe, setIsProcessingSwipe] = useState(false);
 
   useEffect(() => {
     if (!connected) {
@@ -35,23 +40,153 @@ export default function DashboardClient({ usersProps, user }: { usersProps: User
   const likedByIds = user?.likedBy?.map((l: { fromId: string }) => l.fromId) ?? [];
   const matchedIds = likedIds.filter((id: string) => likedByIds.includes(id));
 
-  async function handleLike(userId: string, type: 'like' | 'dislike') {
-    if (!publicKey) return;
+  const filteredUsers = users.filter(userItem =>
+    userItem.wallet !== publicKey?.toBase58() &&
+    !dislikedIds.includes(userItem.id) &&
+    !matchedIds.includes(userItem.id) &&
+    userItem.image &&
+    userItem.name &&
+    userItem.bio
+  );
+
+  const handleSwipe = useCallback(async (userId: string, type: 'like' | 'dislike') => {
+    if (!publicKey || isProcessingSwipe) return;
 
     const currentUser = users.find(u => u.wallet === publicKey.toBase58());
     if (!currentUser) return;
     if (currentUser.id === userId) return;
 
-    setLikeAnimation({ id: userId, type });
+    setIsProcessingSwipe(true);
+
     if (type === 'like') {
       await likeUser(currentUser.id, userId);
     } else if (type === 'dislike') {
       await dislikeUser(currentUser.id, userId);
     }
-    setTimeout(() => setLikeAnimation({ id: null, type: null }), 1000);
 
-    setUsers(prev => prev.filter(u => u.id !== userId));
-  }
+    // Animation de sortie de la carte
+    setCardTransform({
+      x: type === 'like' ? 1000 : -1000,
+      y: 0,
+      rotation: type === 'like' ? 30 : -30
+    });
+
+    setTimeout(() => {
+      setUsers(prev => prev.filter(u => u.id !== userId));
+      setCardTransform({ x: 0, y: 0, rotation: 0 });
+      setIsProcessingSwipe(false);
+    }, 300);
+  }, [publicKey, isProcessingSwipe, users, setUsers]);
+
+  // Gestion des événements tactiles et souris avec événements globaux
+  const handleStart = useCallback((clientX: number, clientY: number) => {
+    if (isProcessingSwipe || filteredUsers.length === 0) return;
+    setStartPos({ x: clientX, y: clientY });
+    setIsDragging(true);
+  }, [isProcessingSwipe, filteredUsers.length]);
+
+  const handleMove = useCallback((clientX: number, clientY: number) => {
+    if (!isDragging || isProcessingSwipe) return;
+
+    const deltaX = clientX - startPos.x;
+    const deltaY = clientY - startPos.y;
+    const rotation = deltaX * 0.1; // Rotation proportionnelle au mouvement
+
+    setCardTransform({ x: deltaX, y: deltaY, rotation });
+  }, [isDragging, isProcessingSwipe, startPos.x, startPos.y]);
+
+  const handleEnd = useCallback(() => {
+    if (!isDragging || isProcessingSwipe) return;
+    setIsDragging(false);
+
+    const threshold = 100; // Distance minimum pour déclencher un swipe
+
+    if (Math.abs(cardTransform.x) > threshold && filteredUsers.length > 0) {
+      const currentProfile = filteredUsers[0];
+      if (cardTransform.x > 0) {
+        handleSwipe(currentProfile.id, 'like');
+      } else {
+        handleSwipe(currentProfile.id, 'dislike');
+      }
+    } else {
+      // Retour à la position initiale si le swipe n'est pas assez fort
+      setCardTransform({ x: 0, y: 0, rotation: 0 });
+    }
+  }, [isDragging, isProcessingSwipe, cardTransform.x, filteredUsers, handleSwipe]);
+
+  // Événements tactiles
+  const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const touch = e.touches[0];
+    handleStart(touch.clientX, touch.clientY);
+  };
+
+  // Événements souris
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleStart(e.clientX, e.clientY);
+  };
+
+  // Gestion des événements globaux pour éviter les problèmes de propagation
+  useEffect(() => {
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        handleMove(touch.clientX, touch.clientY);
+      }
+    };
+
+    const handleGlobalTouchEnd = (e: TouchEvent) => {
+      if (isDragging) {
+        e.preventDefault();
+        handleEnd();
+      }
+    };
+
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (isDragging) {
+        e.preventDefault();
+        handleMove(e.clientX, e.clientY);
+      }
+    };
+
+    const handleGlobalMouseUp = (e: MouseEvent) => {
+      if (isDragging) {
+        e.preventDefault();
+        handleEnd();
+      }
+    };
+
+    if (isDragging) {
+      document.addEventListener('touchmove', handleGlobalTouchMove, { passive: false });
+      document.addEventListener('touchend', handleGlobalTouchEnd, { passive: false });
+      document.addEventListener('mousemove', handleGlobalMouseMove);
+      document.addEventListener('mouseup', handleGlobalMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('touchmove', handleGlobalTouchMove);
+      document.removeEventListener('touchend', handleGlobalTouchEnd);
+      document.removeEventListener('mousemove', handleGlobalMouseMove);
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, [isDragging, startPos, cardTransform, filteredUsers, isProcessingSwipe, handleEnd, handleMove, handleStart]);
+
+  // Couleur d'overlay basée sur la direction du swipe
+  const getOverlayColor = () => {
+    if (cardTransform.x > 50) return 'rgba(34, 197, 94, 0.3)'; // Vert pour like
+    if (cardTransform.x < -50) return 'rgba(239, 68, 68, 0.3)'; // Rouge pour dislike
+    return 'transparent';
+  };
+
+  const getSwipeText = () => {
+    if (cardTransform.x > 50) return 'LIKE';
+    if (cardTransform.x < -50) return 'NOPE';
+    return '';
+  };
 
   return (
     <div
@@ -64,7 +199,7 @@ export default function DashboardClient({ usersProps, user }: { usersProps: User
       </div>
 
       <div className="w-full h-full flex items-center justify-center">
-        <div className="w-full self-start mt-16 h-[80vh]">
+        <div className="w-full self-start mt-16 h-[80vh] relative">
           {(!user?.image || !user?.name || !user?.bio) ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <p className="text-xl font-bold text-foreground">Update your profile to swipe</p>
@@ -72,67 +207,103 @@ export default function DashboardClient({ usersProps, user }: { usersProps: User
                 Edit Profile
               </Link>
             </div>
-          ) : users.filter(user =>
-            user.wallet !== publicKey?.toBase58() &&
-            !dislikedIds.includes(user.id) &&
-            !matchedIds.includes(user.id) &&
-            user.image &&
-            user.name &&
-            user.bio
-          ).length === 0 ? (
+          ) : filteredUsers.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <p className="text-xl font-bold text-foreground">No more profiles available</p>
               <p className="text-muted-foreground mt-2">Check back later for new matches!</p>
             </div>
           ) : (
-            (() => {
-              const filteredUsers = users.filter(userItem =>
-                userItem.wallet !== publicKey?.toBase58() &&
-                !dislikedIds.includes(userItem.id) &&
-                !matchedIds.includes(userItem.id) &&
-                userItem.image &&
-                userItem.name &&
-                userItem.bio
-              );
-              const currentProfile = filteredUsers[0];
-
-              return currentProfile && (
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Cartes en arrière-plan (prochains profils) */}
+              {filteredUsers.slice(1, 3).map((userItem, index) => (
                 <div
-                  key={currentProfile.id}
-                  className="relative flex flex-col items-center rounded-4xl shadow h-full overflow-hidden"
+                  key={userItem.id}
+                  className="absolute w-full h-full rounded-4xl shadow-lg overflow-hidden pointer-events-none"
+                  style={{
+                    transform: `scale(${0.95 - index * 0.05}) translateY(${index * 10}px)`,
+                    zIndex: 10 - index,
+                    opacity: 0.8 - index * 0.2
+                  }}
                 >
-                  {likeAnimation.id === currentProfile.id && (
-                    <div className="absolute inset-0 z-50 flex items-center justify-center">
-                      {likeAnimation.type === 'like' ? (
-                        <HeartIcon className="w-32 h-32 text-destructive animate-bounce" />
-                      ) : (
-                        <XIcon className="w-32 h-32 text-muted-foreground animate-bounce" />
-                      )}
-                    </div>
-                  )}
-                  {currentProfile.image && (
+                  {userItem.image && (
                     <div className="w-full h-full relative">
                       <Image
-                        src={currentProfile.image}
+                        src={userItem.image}
                         alt="User Image"
                         fill
                         className="object-cover object-top"
+                        draggable={false}
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* Carte principale (swipeable) */}
+              {filteredUsers[0] && (
+                <div
+                  ref={cardRef}
+                  className="absolute w-full h-full rounded-4xl shadow-lg overflow-hidden cursor-grab active:cursor-grabbing select-none"
+                  style={{
+                    transform: `translate(${cardTransform.x}px, ${cardTransform.y}px) rotate(${cardTransform.rotation}deg)`,
+                    transition: isDragging ? 'none' : 'transform 0.3s ease-out',
+                    zIndex: 20
+                  }}
+                  onTouchStart={handleTouchStart}
+                  onMouseDown={handleMouseDown}
+                >
+                  {/* Overlay de swipe */}
+                  <div
+                    className="absolute inset-0 z-30 flex items-center justify-center"
+                    style={{ backgroundColor: getOverlayColor() }}
+                  >
+                    {getSwipeText() && (
+                      <span className="text-white text-6xl font-bold transform rotate-12 border-4 border-white px-8 py-4 rounded-lg">
+                        {getSwipeText()}
+                      </span>
+                    )}
+                  </div>
+
+
+
+                  {filteredUsers[0].image && (
+                    <div className="w-full h-full relative">
+                      <Image
+                        src={filteredUsers[0].image}
+                        alt="User Image"
+                        fill
+                        className="object-cover object-top"
+                        draggable={false}
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/70 to-transparent">
                         <div className="flex items-center gap-2 pl-4">
-                          <p className="font-bold text-xl text-card-foreground">{currentProfile.name}</p>
+                          <p className="font-bold text-xl text-card-foreground">{filteredUsers[0].name}</p>
                         </div>
-                        <p className="text-card-foreground line-clamp-2 pl-4">{currentProfile.bio}</p>
-                        <div className="flex justify-around items-center h-18 ">
-                          <Image src={"/nope.png"} height={70} width={70} alt="dislike" onClick={() => handleLike(currentProfile.id, 'dislike')} className="cursor-pointer hover:scale-110 transition-transform grayscale" />
-                          <Image src={"/like.png"} height={70} width={70} alt="like" onClick={() => handleLike(currentProfile.id, 'like')} className="cursor-pointer hover:scale-110 transition-transform" style={{ filter: 'drop-shadow(0 0 8px var(--primary))' }} />
-                        </div>
+                        <p className="text-card-foreground line-clamp-2 pl-4 pb-4">{filteredUsers[0].bio}</p>
                       </div>
                     </div>
                   )}
                 </div>
-              );
-            })()
+              )}
+
+              {/* Boutons d'action (en bas) */}
+              {filteredUsers[0] && (
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-6 z-30">
+                  <button
+                    onClick={() => handleSwipe(filteredUsers[0].id, 'dislike')}
+                    className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+                  >
+                    <XIcon className="w-8 h-8 text-red-500" />
+                  </button>
+                  <button
+                    onClick={() => handleSwipe(filteredUsers[0].id, 'like')}
+                    className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+                  >
+                    <HeartIcon className="w-8 h-8 text-green-500" />
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
       </div>
