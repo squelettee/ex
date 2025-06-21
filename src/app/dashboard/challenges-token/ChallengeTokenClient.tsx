@@ -117,7 +117,21 @@ export default function ChallengeTokenClient({ user: initialUser }: { user: User
         <CoinsIcon className="w-4 h-4 text-foreground" />
       </div>
       <div className="inline-flex items-center border focus:outline-none mt-16 focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 mb-8 rounded-full px-4 py-1.5 text-sm font-medium shadow-sm transition-none"><span className="mr-1 text-primary">✦</span>Earn tokens</div>
+
+      {/* Transfer tokens to wallet - disabled until drop */}
       <div className="w-full flex flex-col gap-4 px-2">
+        <div className="w-full flex flex-col items-center gap-2 bg-card/80 rounded-2xl p-4 mb-4 border-2 border-orange-400/70">
+          <h2 className="text-lg font-bold text-orange-500 mb-1">Transfer to Wallet</h2>
+          <p className="text-xs text-muted-foreground mb-2 text-center">
+            Transfer your tokens to your Solana wallet
+          </p>
+          <Button
+            className="w-full bg-orange-400/20 text-orange-600 font-bold rounded-xl py-2 cursor-not-allowed border border-orange-400/50"
+            disabled
+          >
+            Wait until the drop
+          </Button>
+        </div>
         {/* Daily Claim Challenge */}
         <div className="w-full flex flex-col items-center gap-2 bg-card/80 rounded-2xl p-4 mb-4 border border-primary/30">
           <h2 className="text-lg font-bold text-primary mb-1">Daily Claim</h2>
@@ -140,7 +154,7 @@ export default function ChallengeTokenClient({ user: initialUser }: { user: User
               <input
                 type="text"
                 readOnly
-                value={`localhost:3000/referral=${user.id}`}
+                value={`${process.env.NEXT_PUBLIC_APP_URL}/referral=${user.id}`}
                 className="flex-1 px-2 py-1 rounded border border-muted bg-muted text-xs text-muted-foreground outline-none"
                 style={{ minWidth: 0 }}
                 onFocus={e => e.target.select()}
@@ -150,7 +164,7 @@ export default function ChallengeTokenClient({ user: initialUser }: { user: User
                 size="sm"
                 className="px-3 py-1 text-xs font-bold"
                 onClick={() => {
-                  navigator.clipboard.writeText(`localhost:3000?referral=${user.id}`);
+                  navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_APP_URL}?referral=${user.id}`);
                 }}
               >
                 Copy
