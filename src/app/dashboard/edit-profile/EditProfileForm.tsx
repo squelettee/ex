@@ -4,6 +4,7 @@ import { updateUser } from "@/actions/update-user";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { CoinsIcon } from "lucide-react";
@@ -29,6 +30,8 @@ export default function EditProfileForm({ user }: { user: User | null }) {
     setLoading(true);
     const name = formData.get("name") as string;
     const bio = formData.get("bio") as string;
+    const gender = formData.get("gender") as string;
+    const lookingFor = formData.get("lookingFor") as string;
     let image = formData.get("image");
     if (image instanceof File && image.size === 0) {
       image = "";
@@ -48,6 +51,8 @@ export default function EditProfileForm({ user }: { user: User | null }) {
       await updateUser(
         publicKey.toBase58(),
         name,
+        gender,
+        lookingFor,
         bio,
         image,
         message,
@@ -114,6 +119,34 @@ export default function EditProfileForm({ user }: { user: User | null }) {
             name="image"
             className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg file:bg-primary file:text-primary-foreground file:font-bold file:rounded file:px-3 file:py-1"
           />
+        </div>
+        <div className="flex flex-row gap-2 w-full">
+          <Label htmlFor="gender" className="text-card-foreground">Gender</Label>
+          <Select
+            name="gender"
+            defaultValue={user?.gender || "MALE"}
+          >
+            <SelectTrigger className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg">
+              <SelectValue placeholder="Select a gender" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="MALE">Male</SelectItem>
+              <SelectItem value="FEMALE">Female</SelectItem>
+            </SelectContent>
+          </Select>
+          <Label htmlFor="lookingFor" className="text-card-foreground">Looking For</Label>
+          <Select
+            name="lookingFor"
+            defaultValue={user?.lookingFor || "FEMALE"}
+          >
+            <SelectTrigger className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg">
+              <SelectValue placeholder="Select a gender" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="MALE">Male</SelectItem>
+              <SelectItem value="FEMALE">Female</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <WalletDisconnectButton style={{ width: "100%", textAlign: "center", justifyContent: "center" }} onClick={() => router.push('/')} />
         <Button

@@ -14,6 +14,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum LookingFor {
+  MALE
+  FEMALE
+}
+
 
 model User {
   id         String   @id @default(uuid())
@@ -32,6 +42,8 @@ model User {
   dislikedBy UserDislikes[]  @relation("UserDislikesTo")
   messagesSent     Message[] @relation("MessagesSent")
   messagesReceived Message[] @relation("MessagesReceived")
+  gender     Gender? @default(MALE)
+  lookingFor LookingFor? @default(FEMALE)
 
   visitedX Boolean @default(false)
   visitedInstagram Boolean @default(false)

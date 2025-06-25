@@ -4,12 +4,13 @@ import prisma from "@/lib/prisma";
 import { PublicKey } from "@solana/web3.js";
 import cloudinary from "cloudinary";
 import nacl from "tweetnacl";
+import { Gender, LookingFor } from "../../generated/prisma";
 
 cloudinary.v2.config({
   cloudinary_url: process.env.CLOUDINARY_URL,
 });
 
-export async function updateUser(wallet: string, name: string, bio: string, image: File | string, message: string, signatureB64: string) {
+export async function updateUser(wallet: string, name: string, gender: string, lookingFor: string, bio: string, image: File | string, message: string, signatureB64: string) {
   const pubkey = new PublicKey(wallet);
   const signature = Buffer.from(signatureB64, "base64");
   const isValid = nacl.sign.detached.verify(
@@ -37,6 +38,12 @@ export async function updateUser(wallet: string, name: string, bio: string, imag
   const updateData: Record<string, unknown> = { name, bio };
   if (imageUrl !== undefined && image !== "") {
     updateData.image = imageUrl;
+  }
+  if (gender) {
+    updateData.gender = gender as Gender;
+  }
+  if (lookingFor) {
+    updateData.lookingFor = lookingFor as LookingFor;
   }
 
   await prisma.user.update({

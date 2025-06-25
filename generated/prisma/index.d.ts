@@ -35,6 +35,35 @@ export type UserDislikes = $Result.DefaultSelection<Prisma.$UserDislikesPayload>
 export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const Gender: {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+};
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
+
+
+export const LookingFor: {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+};
+
+export type LookingFor = (typeof LookingFor)[keyof typeof LookingFor]
+
+}
+
+export type Gender = $Enums.Gender
+
+export const Gender: typeof $Enums.Gender
+
+export type LookingFor = $Enums.LookingFor
+
+export const LookingFor: typeof $Enums.LookingFor
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -1248,6 +1277,8 @@ export namespace Prisma {
     tokens: number | null
     referral: string | null
     onboarded: boolean | null
+    gender: $Enums.Gender | null
+    lookingFor: $Enums.LookingFor | null
     visitedX: boolean | null
     visitedInstagram: boolean | null
     visitedTiktok: boolean | null
@@ -1267,6 +1298,8 @@ export namespace Prisma {
     tokens: number | null
     referral: string | null
     onboarded: boolean | null
+    gender: $Enums.Gender | null
+    lookingFor: $Enums.LookingFor | null
     visitedX: boolean | null
     visitedInstagram: boolean | null
     visitedTiktok: boolean | null
@@ -1286,6 +1319,8 @@ export namespace Prisma {
     tokens: number
     referral: number
     onboarded: number
+    gender: number
+    lookingFor: number
     visitedX: number
     visitedInstagram: number
     visitedTiktok: number
@@ -1315,6 +1350,8 @@ export namespace Prisma {
     tokens?: true
     referral?: true
     onboarded?: true
+    gender?: true
+    lookingFor?: true
     visitedX?: true
     visitedInstagram?: true
     visitedTiktok?: true
@@ -1334,6 +1371,8 @@ export namespace Prisma {
     tokens?: true
     referral?: true
     onboarded?: true
+    gender?: true
+    lookingFor?: true
     visitedX?: true
     visitedInstagram?: true
     visitedTiktok?: true
@@ -1353,6 +1392,8 @@ export namespace Prisma {
     tokens?: true
     referral?: true
     onboarded?: true
+    gender?: true
+    lookingFor?: true
     visitedX?: true
     visitedInstagram?: true
     visitedTiktok?: true
@@ -1459,6 +1500,8 @@ export namespace Prisma {
     tokens: number
     referral: string | null
     onboarded: boolean
+    gender: $Enums.Gender | null
+    lookingFor: $Enums.LookingFor | null
     visitedX: boolean
     visitedInstagram: boolean
     visitedTiktok: boolean
@@ -1497,6 +1540,8 @@ export namespace Prisma {
     tokens?: boolean
     referral?: boolean
     onboarded?: boolean
+    gender?: boolean
+    lookingFor?: boolean
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -1523,6 +1568,8 @@ export namespace Prisma {
     tokens?: boolean
     referral?: boolean
     onboarded?: boolean
+    gender?: boolean
+    lookingFor?: boolean
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -1542,6 +1589,8 @@ export namespace Prisma {
     tokens?: boolean
     referral?: boolean
     onboarded?: boolean
+    gender?: boolean
+    lookingFor?: boolean
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -1561,6 +1610,8 @@ export namespace Prisma {
     tokens?: boolean
     referral?: boolean
     onboarded?: boolean
+    gender?: boolean
+    lookingFor?: boolean
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -1569,7 +1620,7 @@ export namespace Prisma {
     lastDailyClaim?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "wallet" | "lastSeen" | "name" | "bio" | "image" | "tokens" | "referral" | "onboarded" | "visitedX" | "visitedInstagram" | "visitedTiktok" | "visitedYoutube" | "visitedTelegram" | "lastDailyClaim", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "wallet" | "lastSeen" | "name" | "bio" | "image" | "tokens" | "referral" | "onboarded" | "gender" | "lookingFor" | "visitedX" | "visitedInstagram" | "visitedTiktok" | "visitedYoutube" | "visitedTelegram" | "lastDailyClaim", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     likes?: boolean | User$likesArgs<ExtArgs>
     likedBy?: boolean | User$likedByArgs<ExtArgs>
@@ -1603,6 +1654,8 @@ export namespace Prisma {
       tokens: number
       referral: string | null
       onboarded: boolean
+      gender: $Enums.Gender | null
+      lookingFor: $Enums.LookingFor | null
       visitedX: boolean
       visitedInstagram: boolean
       visitedTiktok: boolean
@@ -2048,6 +2101,8 @@ export namespace Prisma {
     readonly tokens: FieldRef<"User", 'Int'>
     readonly referral: FieldRef<"User", 'String'>
     readonly onboarded: FieldRef<"User", 'Boolean'>
+    readonly gender: FieldRef<"User", 'Gender'>
+    readonly lookingFor: FieldRef<"User", 'LookingFor'>
     readonly visitedX: FieldRef<"User", 'Boolean'>
     readonly visitedInstagram: FieldRef<"User", 'Boolean'>
     readonly visitedTiktok: FieldRef<"User", 'Boolean'>
@@ -5749,6 +5804,8 @@ export namespace Prisma {
     tokens: 'tokens',
     referral: 'referral',
     onboarded: 'onboarded',
+    gender: 'gender',
+    lookingFor: 'lookingFor',
     visitedX: 'visitedX',
     visitedInstagram: 'visitedInstagram',
     visitedTiktok: 'visitedTiktok',
@@ -5866,6 +5923,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Gender'
+   */
+  export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender'>
+    
+
+
+  /**
+   * Reference to a field of type 'Gender[]'
+   */
+  export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'LookingFor'
+   */
+  export type EnumLookingForFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LookingFor'>
+    
+
+
+  /**
+   * Reference to a field of type 'LookingFor[]'
+   */
+  export type ListEnumLookingForFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LookingFor[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -5896,6 +5981,8 @@ export namespace Prisma {
     tokens?: IntFilter<"User"> | number
     referral?: StringNullableFilter<"User"> | string | null
     onboarded?: BoolFilter<"User"> | boolean
+    gender?: EnumGenderNullableFilter<"User"> | $Enums.Gender | null
+    lookingFor?: EnumLookingForNullableFilter<"User"> | $Enums.LookingFor | null
     visitedX?: BoolFilter<"User"> | boolean
     visitedInstagram?: BoolFilter<"User"> | boolean
     visitedTiktok?: BoolFilter<"User"> | boolean
@@ -5921,6 +6008,8 @@ export namespace Prisma {
     tokens?: SortOrder
     referral?: SortOrderInput | SortOrder
     onboarded?: SortOrder
+    gender?: SortOrderInput | SortOrder
+    lookingFor?: SortOrderInput | SortOrder
     visitedX?: SortOrder
     visitedInstagram?: SortOrder
     visitedTiktok?: SortOrder
@@ -5949,6 +6038,8 @@ export namespace Prisma {
     tokens?: IntFilter<"User"> | number
     referral?: StringNullableFilter<"User"> | string | null
     onboarded?: BoolFilter<"User"> | boolean
+    gender?: EnumGenderNullableFilter<"User"> | $Enums.Gender | null
+    lookingFor?: EnumLookingForNullableFilter<"User"> | $Enums.LookingFor | null
     visitedX?: BoolFilter<"User"> | boolean
     visitedInstagram?: BoolFilter<"User"> | boolean
     visitedTiktok?: BoolFilter<"User"> | boolean
@@ -5974,6 +6065,8 @@ export namespace Prisma {
     tokens?: SortOrder
     referral?: SortOrderInput | SortOrder
     onboarded?: SortOrder
+    gender?: SortOrderInput | SortOrder
+    lookingFor?: SortOrderInput | SortOrder
     visitedX?: SortOrder
     visitedInstagram?: SortOrder
     visitedTiktok?: SortOrder
@@ -6001,6 +6094,8 @@ export namespace Prisma {
     tokens?: IntWithAggregatesFilter<"User"> | number
     referral?: StringNullableWithAggregatesFilter<"User"> | string | null
     onboarded?: BoolWithAggregatesFilter<"User"> | boolean
+    gender?: EnumGenderNullableWithAggregatesFilter<"User"> | $Enums.Gender | null
+    lookingFor?: EnumLookingForNullableWithAggregatesFilter<"User"> | $Enums.LookingFor | null
     visitedX?: BoolWithAggregatesFilter<"User"> | boolean
     visitedInstagram?: BoolWithAggregatesFilter<"User"> | boolean
     visitedTiktok?: BoolWithAggregatesFilter<"User"> | boolean
@@ -6166,6 +6261,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -6191,6 +6288,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -6216,6 +6315,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -6241,6 +6342,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -6266,6 +6369,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -6285,6 +6390,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -6304,6 +6411,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -6491,6 +6600,20 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type EnumGenderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
+  }
+
+  export type EnumLookingForNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.LookingFor | EnumLookingForFieldRefInput<$PrismaModel> | null
+    in?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumLookingForNullableFilter<$PrismaModel> | $Enums.LookingFor | null
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -6548,6 +6671,8 @@ export namespace Prisma {
     tokens?: SortOrder
     referral?: SortOrder
     onboarded?: SortOrder
+    gender?: SortOrder
+    lookingFor?: SortOrder
     visitedX?: SortOrder
     visitedInstagram?: SortOrder
     visitedTiktok?: SortOrder
@@ -6571,6 +6696,8 @@ export namespace Prisma {
     tokens?: SortOrder
     referral?: SortOrder
     onboarded?: SortOrder
+    gender?: SortOrder
+    lookingFor?: SortOrder
     visitedX?: SortOrder
     visitedInstagram?: SortOrder
     visitedTiktok?: SortOrder
@@ -6590,6 +6717,8 @@ export namespace Prisma {
     tokens?: SortOrder
     referral?: SortOrder
     onboarded?: SortOrder
+    gender?: SortOrder
+    lookingFor?: SortOrder
     visitedX?: SortOrder
     visitedInstagram?: SortOrder
     visitedTiktok?: SortOrder
@@ -6674,6 +6803,26 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
+    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
+  }
+
+  export type EnumLookingForNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LookingFor | EnumLookingForFieldRefInput<$PrismaModel> | null
+    in?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumLookingForNullableWithAggregatesFilter<$PrismaModel> | $Enums.LookingFor | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumLookingForNullableFilter<$PrismaModel>
+    _max?: NestedEnumLookingForNullableFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6865,6 +7014,14 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableEnumGenderFieldUpdateOperationsInput = {
+    set?: $Enums.Gender | null
+  }
+
+  export type NullableEnumLookingForFieldUpdateOperationsInput = {
+    set?: $Enums.LookingFor | null
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -7178,6 +7335,20 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedEnumGenderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
+  }
+
+  export type NestedEnumLookingForNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.LookingFor | EnumLookingForFieldRefInput<$PrismaModel> | null
+    in?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumLookingForNullableFilter<$PrismaModel> | $Enums.LookingFor | null
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -7281,6 +7452,26 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
+    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumLookingForNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LookingFor | EnumLookingForFieldRefInput<$PrismaModel> | null
+    in?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.LookingFor[] | ListEnumLookingForFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumLookingForNullableWithAggregatesFilter<$PrismaModel> | $Enums.LookingFor | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumLookingForNullableFilter<$PrismaModel>
+    _max?: NestedEnumLookingForNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -7551,6 +7742,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7575,6 +7768,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7604,6 +7799,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7628,6 +7825,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7668,6 +7867,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7692,6 +7893,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7727,6 +7930,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7751,6 +7956,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7775,6 +7982,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7799,6 +8008,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7828,6 +8039,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7852,6 +8065,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -7892,6 +8107,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7916,6 +8133,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7951,6 +8170,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7975,6 +8196,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -7999,6 +8222,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -8023,6 +8248,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -8052,6 +8279,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -8076,6 +8305,8 @@ export namespace Prisma {
     tokens?: number
     referral?: string | null
     onboarded?: boolean
+    gender?: $Enums.Gender | null
+    lookingFor?: $Enums.LookingFor | null
     visitedX?: boolean
     visitedInstagram?: boolean
     visitedTiktok?: boolean
@@ -8116,6 +8347,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -8140,6 +8373,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -8175,6 +8410,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean
@@ -8199,6 +8436,8 @@ export namespace Prisma {
     tokens?: IntFieldUpdateOperationsInput | number
     referral?: NullableStringFieldUpdateOperationsInput | string | null
     onboarded?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
+    lookingFor?: NullableEnumLookingForFieldUpdateOperationsInput | $Enums.LookingFor | null
     visitedX?: BoolFieldUpdateOperationsInput | boolean
     visitedInstagram?: BoolFieldUpdateOperationsInput | boolean
     visitedTiktok?: BoolFieldUpdateOperationsInput | boolean

@@ -46,7 +46,10 @@ export default function DashboardClient({ usersProps, user }: { usersProps: User
     !matchedIds.includes(userItem.id) &&
     userItem.image &&
     userItem.name &&
-    userItem.bio
+    userItem.bio &&
+    // Filtrage par préférences de genre
+    userItem.gender === user?.lookingFor &&      // Le profil est du genre que je recherche
+    userItem.lookingFor === user?.gender         // Le profil recherche mon genre
   );
 
   const handleSwipe = useCallback(async (userId: string, type: 'like' | 'dislike') => {

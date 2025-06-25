@@ -131,6 +131,8 @@ exports.Prisma.UserScalarFieldEnum = {
   tokens: 'tokens',
   referral: 'referral',
   onboarded: 'onboarded',
+  gender: 'gender',
+  lookingFor: 'lookingFor',
   visitedX: 'visitedX',
   visitedInstagram: 'visitedInstagram',
   visitedTiktok: 'visitedTiktok',
@@ -171,7 +173,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.Gender = exports.$Enums.Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+};
 
+exports.LookingFor = exports.$Enums.LookingFor = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
