@@ -172,7 +172,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/baptistegresse/Documents/final/generated/prisma",
+      "value": "/Users/baptistegresse/Documents/ex/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -186,7 +186,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/baptistegresse/Documents/final/prisma/schema.prisma",
+    "sourceFilePath": "/Users/baptistegresse/Documents/ex/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -200,6 +200,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -210,7 +211,7 @@ const config = {
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Gender {\n  MALE\n  FEMALE\n}\n\nenum LookingFor {\n  MALE\n  FEMALE\n}\n\nmodel User {\n  id               String         @id @default(uuid())\n  createdAt        DateTime       @default(now())\n  wallet           String         @unique\n  lastSeen         DateTime\n  name             String?\n  bio              String?\n  image            String?\n  tokens           Int            @default(0)\n  referral         String?        @default(\"\")\n  onboarded        Boolean        @default(false)\n  likes            UserLikes[]    @relation(\"UserLikesFrom\")\n  likedBy          UserLikes[]    @relation(\"UserLikesTo\")\n  dislikes         UserDislikes[] @relation(\"UserDislikesFrom\")\n  dislikedBy       UserDislikes[] @relation(\"UserDislikesTo\")\n  messagesSent     Message[]      @relation(\"MessagesSent\")\n  messagesReceived Message[]      @relation(\"MessagesReceived\")\n  gender           Gender?        @default(MALE)\n  lookingFor       LookingFor?    @default(FEMALE)\n\n  visitedX         Boolean   @default(false)\n  visitedInstagram Boolean   @default(false)\n  visitedTiktok    Boolean   @default(false)\n  visitedYoutube   Boolean   @default(false)\n  visitedTelegram  Boolean   @default(false)\n  lastDailyClaim   DateTime?\n}\n\nmodel UserLikes {\n  from   User   @relation(\"UserLikesFrom\", fields: [fromId], references: [id], onDelete: Cascade)\n  fromId String\n  to     User   @relation(\"UserLikesTo\", fields: [toId], references: [id], onDelete: Cascade)\n  toId   String\n\n  @@id([fromId, toId])\n  @@unique([fromId, toId])\n}\n\nmodel UserDislikes {\n  from   User   @relation(\"UserDislikesFrom\", fields: [fromId], references: [id], onDelete: Cascade)\n  fromId String\n  to     User   @relation(\"UserDislikesTo\", fields: [toId], references: [id], onDelete: Cascade)\n  toId   String\n\n  @@id([fromId, toId])\n  @@unique([fromId, toId])\n}\n\nmodel Message {\n  id         String   @id @default(uuid())\n  createdAt  DateTime @default(now())\n  fromUser   User     @relation(\"MessagesSent\", fields: [fromUserId], references: [id])\n  fromUserId String\n  toUser     User     @relation(\"MessagesReceived\", fields: [toUserId], references: [id])\n  toUserId   String\n  content    String\n\n  @@index([fromUserId, toUserId])\n}\n",
   "inlineSchemaHash": "71865e2b00d81159ef3e968e5969cd3ada05331ba858b2e97254049dc9cec689",
-  "copyEngine": false
+  "copyEngine": true
 }
 config.dirname = '/'
 

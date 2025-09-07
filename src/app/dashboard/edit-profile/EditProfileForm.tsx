@@ -73,7 +73,7 @@ export default function EditProfileForm({ user }: { user: User | null }) {
         <p className="text-foreground font-bold">{user?.tokens}</p>
         <CoinsIcon className="w-4 h-4 text-foreground" />
       </div>
-      <div className="pt-12 pb-24 px-4 overflow-y-auto">
+      <div className="pt-12 pb-24 px-auto overflow-y-auto overflow-x-hidden">
         <form
           action={handleSubmit}
           className="flex flex-col items-center gap-6 w-full max-w-sm min-w-sm px-4 py-6 rounded-3xl bg-card/70"
@@ -121,33 +121,37 @@ export default function EditProfileForm({ user }: { user: User | null }) {
               className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg file:bg-primary file:text-primary-foreground file:font-bold file:rounded file:px-3 file:py-1"
             />
           </div>
-          <div className="flex flex-row gap-2 w-full">
-            <Label htmlFor="gender" className="text-card-foreground">Gender</Label>
-            <Select
-              name="gender"
-              defaultValue={user?.gender || "MALE"}
-            >
-              <SelectTrigger className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg">
-                <SelectValue placeholder="Select a gender" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="MALE">Male</SelectItem>
-                <SelectItem value="FEMALE">Female</SelectItem>
-              </SelectContent>
-            </Select>
-            <Label htmlFor="lookingFor" className="text-card-foreground">Looking For</Label>
-            <Select
-              name="lookingFor"
-              defaultValue={user?.lookingFor || "FEMALE"}
-            >
-              <SelectTrigger className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg">
-                <SelectValue placeholder="Select a gender" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="MALE">Male</SelectItem>
-                <SelectItem value="FEMALE">Female</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-2 w-full">
+              <Label htmlFor="gender" className="text-card-foreground">Gender</Label>
+              <Select
+                name="gender"
+                defaultValue={user?.gender || "MALE"}
+              >
+                <SelectTrigger className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg">
+                  <SelectValue placeholder="Select a gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="MALE">Male</SelectItem>
+                  <SelectItem value="FEMALE">Female</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-2 w-full">
+              <Label htmlFor="lookingFor" className="text-card-foreground">Looking For</Label>
+              <Select
+                name="lookingFor"
+                defaultValue={user?.lookingFor || "FEMALE"}
+              >
+                <SelectTrigger className="bg-muted text-muted-foreground border-none focus:ring-2 focus:ring-ring rounded-lg">
+                  <SelectValue placeholder="Select a gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="MALE">Male</SelectItem>
+                  <SelectItem value="FEMALE">Female</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           <WalletDisconnectButton style={{ width: "100%", textAlign: "center", justifyContent: "center" }} onClick={() => router.push('/')} />
           <Button
