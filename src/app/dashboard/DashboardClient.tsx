@@ -279,10 +279,10 @@ export default function DashboardClient({ usersProps, user }: { usersProps: User
                         draggable={false}
                       />
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/70 to-transparent">
-                        <div className="flex items-center gap-2 pl-4">
+                        <div className="flex items-start gap-2 pl-4 pb-24 flex-col">
                           <p className="font-bold text-xl text-card-foreground">{filteredUsers[0].name}</p>
+                          <p className="text-card-foreground line-clamp-2 pb-3">{filteredUsers[0].bio}</p>
                         </div>
-                        <p className="text-card-foreground line-clamp-2 pl-4 pb-4">{filteredUsers[0].bio}</p>
                       </div>
                     </div>
                   )}
