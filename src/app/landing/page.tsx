@@ -182,10 +182,10 @@ export default function Page() {
                   <Coins className="h-5 w-5 text-primary" />
                   <Badge variant="secondary">Points & Airdrop</Badge>
                 </div>
-                <CardTitle className="text-xl md:text-2xl">Use points in-app and qualify for the X token airdrop</CardTitle>
+                <CardTitle className="text-xl md:text-2xl">Use points in-app and qualify for the $EX token airdrop</CardTitle>
               </CardHeader>
               <CardContent className="p-6 pt-0 md:px-8 text-sm md:text-base text-muted-foreground space-y-3">
-                <p>Earn points by completing challenges and daily actions. Points unlock in-app perks today and also count toward the X token airdrop at launch.</p>
+                <p>Earn points by completing challenges and daily actions. Points unlock in-app perks today and also count toward the $EX token airdrop at launch.</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="w-full sm:w-auto">
                     <WalletMultiButton className="h-11 px-8 text-base rounded-md" />
@@ -280,7 +280,7 @@ export default function Page() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="rounded-xl border bg-card/40">
-              <AccordionTrigger className="px-4 py-4 md:px-6 md:py-5">How do points count toward the X token airdrop?</AccordionTrigger>
+              <AccordionTrigger className="px-4 py-4 md:px-6 md:py-5">How do points count toward the $EX token airdrop?</AccordionTrigger>
               <AccordionContent className="px-4 pb-4 md:px-6 md:pb-6 text-sm text-muted-foreground">
                 At token launch, your cumulative points will be used as an input to determine eligibility and allocation for the airdrop. Exact mechanics and snapshot timing will be announced before launch.
               </AccordionContent>
@@ -292,7 +292,7 @@ export default function Page() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4" className="rounded-xl border bg-card/40">
-              <AccordionTrigger className="px-4 py-4 md:px-6 md:py-5">When is the X token launching?</AccordionTrigger>
+              <AccordionTrigger className="px-4 py-4 md:px-6 md:py-5">When is the $EX token launching?</AccordionTrigger>
               <AccordionContent className="px-4 pb-4 md:px-6 md:pb-6 text-sm text-muted-foreground">
                 We’ll share the launch window and the airdrop snapshot date ahead of time. Keep earning points in the meantime—your activity counts.
               </AccordionContent>
