@@ -297,12 +297,6 @@ export default function Page() {
                 We’ll share the launch window and the airdrop snapshot date ahead of time. Keep earning points in the meantime—your activity counts.
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-5" className="rounded-xl border bg-card/40">
-              <AccordionTrigger className="px-4 py-4 md:px-6 md:py-5">Do I need KYC or extra steps for the airdrop?</AccordionTrigger>
-              <AccordionContent className="px-4 pb-4 md:px-6 md:pb-6 text-sm text-muted-foreground">
-                Depending on your region, compliance steps may apply. We’ll publish clear requirements with the airdrop announcement.
-              </AccordionContent>
-            </AccordionItem>
           </Accordion>
         </section>
 
