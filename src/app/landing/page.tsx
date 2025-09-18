@@ -4,6 +4,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -35,10 +37,10 @@ export default function Page() {
             <span className="font-semibold">Nextex Beta</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-            <Link href="#service" className="hover:text-foreground">Service</Link>
+            <Link href="#service" className="hover:text-foreground">Features</Link>
             <Link href="#points" className="hover:text-foreground">Points & Airdrop</Link>
+            <Link href="#roadmap" className="hover:text-foreground">Roadmap</Link>
             <Link href="#rewards" className="hover:text-foreground">Rewards</Link>
-            <Link href="#faq" className="hover:text-foreground">FAQ</Link>
           </nav>
           <div className="hidden md:flex items-center gap-3">
             <Link href="https://x.com/nextexapp" target="_blank" rel="noreferrer" aria-label="Nextex on X">
@@ -51,7 +53,7 @@ export default function Page() {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Ouvrir le menu">
+                <Button variant="outline" size="icon" aria-label="Open menu">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -62,7 +64,7 @@ export default function Page() {
                 <nav className="flex flex-col gap-1">
                   <SheetClose asChild>
                     <Link href="#service" className="px-3 py-2 rounded-md text-base hover:bg-accent hover:text-accent-foreground" scroll>
-                      Service
+                      Features
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
@@ -71,13 +73,13 @@ export default function Page() {
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Link href="#rewards" className="px-3 py-2 rounded-md text-base hover:bg-accent hover:text-accent-foreground" scroll>
-                      Rewards
+                    <Link href="#roadmap" className="px-3 py-2 rounded-md text-base hover:bg-accent hover:text-accent-foreground" scroll>
+                      Roadmap
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
-                    <Link href="#faq" className="px-3 py-2 rounded-md text-base hover:bg-accent hover:text-accent-foreground" scroll>
-                      FAQ
+                    <Link href="#rewards" className="px-3 py-2 rounded-md text-base hover:bg-accent hover:text-accent-foreground" scroll>
+                      Rewards
                     </Link>
                   </SheetClose>
                 </nav>
@@ -123,21 +125,42 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Trust Logos (moved up for credibility) */}
+        <section id="trust" className="container mx-auto max-w-6xl px-4 md:px-8 pb-10 md:pb-14">
+          <div className="text-center text-xs md:text-sm text-muted-foreground mb-6">
+            Powering the next generation of builders
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 opacity-70">
+            <Link href="https://phantom.app" target="_blank" rel="noreferrer" aria-label="Phantom">
+              <Image src="/phantom.svg" alt="Phantom" width={110} height={28} className="h-6 w-auto" />
+            </Link>
+            <Link href="https://solana.com" target="_blank" rel="noreferrer" aria-label="Solana">
+              <Image src="/solana.svg" alt="Solana" width={110} height={28} className="h-6 w-auto" />
+            </Link>
+            <Link href="https://www.apple.com/app-store/" target="_blank" rel="noreferrer" aria-label="App Store">
+              <Image src="/appstore.svg" alt="App Store" width={128} height={28} className="h-6 w-auto" />
+            </Link>
+            <Link href="https://play.google.com/" target="_blank" rel="noreferrer" aria-label="Google Play">
+              <Image src="/playstore.svg" alt="Google Play" width={128} height={28} className="h-6 w-auto" />
+            </Link>
+          </div>
+        </section>
+
         {/* Utility Image */}
         <section id="utility" className="container mx-auto max-w-6xl px-4 md:px-8 pb-16 md:pb-24">
-          <div className="relative overflow-hidden rounded-2xl border bg-card/30 shadow-sm">
+          <div className="relative overflow-hidden rounded-2xl border shadow-sm bg-black">
             <Image
               src="/bgimage.jpg"
               alt="Nextex utility preview"
               width={1600}
               height={900}
-              className="h-64 sm:h-80 md:h-[460px] w-full object-cover object-[center_30%]"
+              className="h-64 sm:h-80 md:h-[460px] w-full object-cover"
               priority
             />
           </div>
         </section>
 
-        {/* Service Explanation */}
+        {/* Features */}
         <section id="service" className="container mx-auto max-w-6xl px-4 md:px-8 pb-16 md:pb-24">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <Card className="backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -253,7 +276,7 @@ export default function Page() {
                   <Trophy className="h-5 w-5 text-primary" />
                   <CardTitle className="text-base">Challenges</CardTitle>
                 </CardHeader>
-                <CardContent className="text-sm text-muted-foreground p-6 pt-0">Complétez des objectifs et progressez dans le classement.</CardContent>
+                <CardContent className="text-sm text-muted-foreground p-6 pt-0">Complete objectives and climb the leaderboard.</CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center gap-4 p-6">
@@ -264,6 +287,163 @@ export default function Page() {
               </Card>
             </div>
           </div>
+        </section>
+
+        {/* Roadmap (moved before Rewards for narrative flow) */}
+        <section id="roadmap" className="container mx-auto max-w-5xl px-4 md:px-8 pb-16 md:pb-24">
+          <div className="text-center mb-8 md:mb-10">
+            <h2 className="text-xl md:text-2xl font-semibold">Roadmap</h2>
+            <p className="text-sm md:text-base text-muted-foreground">Interactive roadmap</p>
+          </div>
+
+          <Carousel className="px-6" opts={{ align: "start" }}>
+            <CarouselContent>
+              {[
+                {
+                  phase: 'Phase 1 – Bootstrapping',
+                  items: [
+                    { num: '01', title: 'Beta Release of NextEx App', desc: 'Early access to test and shape the product.' },
+                    { num: '02', title: 'Organic Growth of EX Community', desc: 'Build an engaged and authentic base.' },
+                    { num: '03', title: 'ExoSol Ecosystem', desc: 'Mini-games, NFTs and exclusive utilities.' },
+                    { num: '04', title: 'Influencer & Marketing', desc: 'KOLs, ads and viral activations.' },
+                  ],
+                },
+                {
+                  phase: 'Phase 2 – Launch',
+                  items: [
+                    { num: '05', title: 'Token Launch: $EX', desc: 'Community-first distribution.' },
+                    { num: '06', title: 'Official App Release', desc: 'Full and stable version.' },
+                    { num: '07', title: 'iOS & Android', desc: 'Release on major app stores.' },
+                    { num: '08', title: 'Web App', desc: 'Full-featured cross-platform web app.' },
+                  ],
+                },
+                {
+                  phase: 'Phase 3 – Scale',
+                  items: [
+                    { num: '09', title: 'Strategic Partnerships', desc: 'Alliances with Web3 projects, brands and creators.' },
+                    { num: '10', title: 'CEX Listings', desc: 'Expand $EX accessibility beyond DeFi.' },
+                    { num: '11', title: 'Mainstream Expansion', desc: 'Grow visibility to the broader market.' },
+                    { num: '12', title: 'Challenge Industry Giants', desc: 'Aim to compete with incumbents.' },
+                  ],
+                },
+              ].map((group, gi) => (
+                <CarouselItem key={gi}>
+                  <div className="mx-auto max-w-3xl">
+                    <div className="mb-4 text-sm font-medium text-muted-foreground">{group.phase}</div>
+                    <ol className="relative border-l pl-4 md:pl-6 border-border/60">
+                      {group.items.map((it) => (
+                        <li key={it.num} className="mb-6 last:mb-0">
+                          <div
+                            className={`absolute -left-2 md:-left-3 mt-1 h-3 w-3 rounded-full ${["01", "02", "03"].includes(it.num) ? "bg-emerald-500" : "bg-rose-500"}`}
+                            aria-hidden
+                          />
+                          <div className="flex items-start gap-3">
+                            <span
+                              className={`inline-flex h-6 items-center rounded-md px-2 text-xs font-semibold ${["01", "02", "03"].includes(it.num) ? "bg-emerald-500/10 text-emerald-600" : "bg-rose-500/10 text-rose-600"}`}
+                            >
+                              {it.num}
+                            </span>
+                            <div className="space-y-1">
+                              <div className="text-sm md:text-base font-medium">{it.title}</div>
+                              <p className="text-xs md:text-sm text-muted-foreground max-w-prose">{it.desc}</p>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
+        </section>
+
+        {/* Email Opt-in */}
+        <section id="subscribe" className="container mx-auto max-w-3xl px-4 md:px-8 pb-16 md:pb-24">
+          <Card className="bg-card/50">
+            <CardHeader className="p-6 md:p-8">
+              <CardTitle className="text-lg md:text-xl">Stay informed about the official launch</CardTitle>
+            </CardHeader>
+            <CardContent className="p-6 pt-0 md:px-8">
+              <NewsletterForm />
+              <p className="mt-3 text-xs text-muted-foreground">No spam. You can unsubscribe anytime.</p>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Trust Logos (removed here; now shown under Hero) */}
+
+        {/* Roadmap */}
+        <section id="roadmap" className="container mx-auto max-w-5xl px-4 md:px-8 pb-16 md:pb-24">
+          <div className="text-center mb-8 md:mb-10">
+            <h2 className="text-xl md:text-2xl font-semibold">Roadmap</h2>
+            <p className="text-sm md:text-base text-muted-foreground">Interactive roadmap</p>
+          </div>
+
+          <Carousel className="px-6" opts={{ align: "start" }}>
+            <CarouselContent>
+              {[
+                {
+                  phase: 'Phase 1 – Bootstrapping',
+                  items: [
+                    { num: '01', title: 'Beta Release of NextEx App', desc: 'Early access to test and shape the product.' },
+                    { num: '02', title: 'Organic Growth of EX Community', desc: 'Build an engaged and authentic base.' },
+                    { num: '03', title: 'ExoSol Ecosystem', desc: 'Mini-games, NFTs and exclusive utilities.' },
+                    { num: '04', title: 'Influencer & Marketing', desc: 'KOLs, ads and viral activations.' },
+                  ],
+                },
+                {
+                  phase: 'Phase 2 – Launch',
+                  items: [
+                    { num: '05', title: 'Token Launch: $EX', desc: 'Community-first distribution.' },
+                    { num: '06', title: 'Official App Release', desc: 'Full and stable version.' },
+                    { num: '07', title: 'iOS & Android', desc: 'Release on major app stores.' },
+                    { num: '08', title: 'Web App', desc: 'Full-featured cross-platform web app.' },
+                  ],
+                },
+                {
+                  phase: 'Phase 3 – Scale',
+                  items: [
+                    { num: '09', title: 'Strategic Partnerships', desc: 'Alliances with Web3 projects, brands and creators.' },
+                    { num: '10', title: 'CEX Listings', desc: 'Expand $EX accessibility beyond DeFi.' },
+                    { num: '11', title: 'Mainstream Expansion', desc: 'Grow visibility to the broader market.' },
+                    { num: '12', title: 'Challenge Industry Giants', desc: 'Aim to compete with incumbents.' },
+                  ],
+                },
+              ].map((group, gi) => (
+                <CarouselItem key={gi}>
+                  <div className="mx-auto max-w-3xl">
+                    <div className="mb-4 text-sm font-medium text-muted-foreground">{group.phase}</div>
+                    <ol className="relative border-l pl-4 md:pl-6 border-border/60">
+                      {group.items.map((it) => (
+                        <li key={it.num} className="mb-6 last:mb-0">
+                          <div
+                            className={`absolute -left-2 md:-left-3 mt-1 h-3 w-3 rounded-full ${["01", "02", "03"].includes(it.num) ? "bg-emerald-500" : "bg-rose-500"}`}
+                            aria-hidden
+                          />
+                          <div className="flex items-start gap-3">
+                            <span
+                              className={`inline-flex h-6 items-center rounded-md px-2 text-xs font-semibold ${["01", "02", "03"].includes(it.num) ? "bg-emerald-500/10 text-emerald-600" : "bg-rose-500/10 text-rose-600"}`}
+                            >
+                              {it.num}
+                            </span>
+                            <div className="space-y-1">
+                              <div className="text-sm md:text-base font-medium">{it.title}</div>
+                              <p className="text-xs md:text-sm text-muted-foreground max-w-prose">{it.desc}</p>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+          </Carousel>
         </section>
 
         {/* FAQ */}
@@ -325,6 +505,59 @@ export default function Page() {
         </footer>
       </main>
     </>
+  );
+}
+
+function NewsletterForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState<string>("");
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setStatus("error");
+      setMessage("Invalid email");
+      return;
+    }
+    setStatus("loading");
+    setMessage("");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if (!res.ok || !data?.ok) throw new Error(data?.error || "Server error");
+      setStatus("success");
+      setMessage("Thanks! We'll keep you posted.");
+      setEmail("");
+    } catch {
+      setStatus("error");
+      setMessage("We couldn't save your email. Please try again.");
+    }
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="flex flex-col sm:flex-row gap-3">
+      <Input
+        type="email"
+        placeholder="your@email.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className="h-11"
+        required
+      />
+      <Button type="submit" className="h-11 px-6" disabled={status === "loading"}>
+        {status === "loading" ? "Submitting…" : "Notify me"}
+      </Button>
+      {message && (
+        <div className={`text-xs sm:ml-2 ${status === "error" ? "text-destructive" : "text-muted-foreground"}`}>
+          {message}
+        </div>
+      )}
+    </form>
   );
 }
 
