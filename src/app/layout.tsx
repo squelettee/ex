@@ -14,6 +14,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "next ex beta",
+  icons: {
+    icon: "/logo.jpg",
+    shortcut: "/logo.jpg",
+    apple: "/logo.jpg",
+  },
 };
 
 export default function RootLayout({

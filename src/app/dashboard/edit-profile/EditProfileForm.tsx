@@ -153,7 +153,7 @@ export default function EditProfileForm({ user }: { user: User | null }) {
               </Select>
             </div>
           </div>
-          <WalletDisconnectButton style={{ width: "100%", textAlign: "center", justifyContent: "center" }} onClick={() => router.push('/')} />
+          <WalletDisconnectButton style={{ width: "100%", textAlign: "center", justifyContent: "center" }} onClick={() => router.push('/landing')} />
           <Button
             className="w-full mt-2 bg-primary text-primary-foreground font-bold text-lg rounded-sm py-6 hover:bg-primary/80 transition-colors"
             type="submit"
