@@ -31,7 +31,7 @@ export default function Page() {
       <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto max-w-6xl px-4 md:px-8 h-16 flex items-center justify-between">
           <Link href="#hero" className="inline-flex items-center gap-2">
-            <Image src="/logo.jpg" alt="Nextex logo" width={20} height={20} className="rounded-sm" />
+            <Image src="/logo.png" alt="Nextex logo" width={30} height={30} className="rounded-sm" />
             <span className="font-semibold">Nextex Beta</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
@@ -112,7 +112,7 @@ export default function Page() {
         <section id="hero" className="container mx-auto max-w-6xl px-4 md:px-8 pt-24 md:pt-32 pb-16 md:pb-24">
           <div className="flex flex-col items-center text-center gap-8">
             <div className="inline-flex items-center gap-3 text-primary">
-              <Image src="/logo.jpg" alt="Nextex logo" width={44} height={44} className="rounded-md" />
+              <Image src="/logo.png" alt="Nextex logo" width={80} height={80} className="rounded-md" />
               <span className="text-3xl md:text-5xl font-bold tracking-tight">Nextex Beta</span>
             </div>
             <p className="max-w-3xl text-sm md:text-base leading-relaxed text-muted-foreground">
@@ -318,7 +318,7 @@ export default function Page() {
         <footer className="container mx-auto max-w-6xl px-4 md:px-8 py-12">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8 text-sm">
             <div className="inline-flex items-center gap-2">
-              <Image src="/logo.jpg" alt="Nextex logo" width={20} height={20} className="rounded-sm" />
+              <Image src="/logo.png" alt="Nextex logo" width={30} height={30} className="rounded-sm" />
               <span className="font-semibold">Nextex Beta</span>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 text-muted-foreground">
