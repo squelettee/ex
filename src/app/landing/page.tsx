@@ -276,7 +276,7 @@ export default function Page() {
             <AccordionItem value="item-1" className="rounded-xl border bg-card/40">
               <AccordionTrigger className="px-4 py-4 md:px-6 md:py-5">What are Nextex Points?</AccordionTrigger>
               <AccordionContent className="px-4 pb-4 md:px-6 md:pb-6 text-sm text-muted-foreground">
-                Points are earned by using the app (daily claim, likes, matches, messages, and challenges). They unlock in-app perks and contribute toward the future X token airdrop.
+                Points are earned by using the app (daily claim, likes, matches, messages, and challenges). They unlock in-app perks and contribute toward the future $EX token airdrop.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="rounded-xl border bg-card/40">
