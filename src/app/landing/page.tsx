@@ -35,7 +35,6 @@ export default function Page() {
             <span className="font-semibold">Nextex Beta</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-            <Link href="#utility" className="hover:text-foreground">Utility</Link>
             <Link href="#service" className="hover:text-foreground">Service</Link>
             <Link href="#points" className="hover:text-foreground">Points & Airdrop</Link>
             <Link href="#rewards" className="hover:text-foreground">Rewards</Link>
@@ -61,11 +60,6 @@ export default function Page() {
                   <SheetTitle className="text-sm text-muted-foreground">Menu</SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col gap-1">
-                  <SheetClose asChild>
-                    <Link href="#utility" className="px-3 py-2 rounded-md text-base hover:bg-accent hover:text-accent-foreground" scroll>
-                      Utility
-                    </Link>
-                  </SheetClose>
                   <SheetClose asChild>
                     <Link href="#service" className="px-3 py-2 rounded-md text-base hover:bg-accent hover:text-accent-foreground" scroll>
                       Service
@@ -328,12 +322,11 @@ export default function Page() {
               <Link href="#rewards">Rewards</Link>
               <Link href="#faq">FAQ</Link>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 text-muted-foreground">© {new Date().getFullYear()} Nextex. All rights reserved.
               <Link href="https://x.com/nextexapp" target="_blank" rel="noreferrer" aria-label="Nextex on X">
                 <Twitter className="h-5 w-5 text-muted-foreground hover:text-foreground" />
               </Link>
             </div>
-            <div className="text-muted-foreground">© {new Date().getFullYear()} Nextex. All rights reserved.</div>
           </div>
         </footer>
       </main>
