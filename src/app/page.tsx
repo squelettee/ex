@@ -2,8 +2,8 @@
 
 import { createUser } from "@/actions/create-user";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { FlameIcon } from "lucide-react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 const WalletMultiButton = dynamic(
@@ -51,7 +51,7 @@ function Home() {
       style={{ backgroundImage: 'url(/backgroundshape.webp)', backgroundSize: 'cover' }}
     >
       <div className="relative flex flex-col items-center">
-        <FlameIcon className="w-10 h-10 mb-2" />
+        <Image src="/logo.png" alt="Nextex logo" width={90} height={90} className="mb-2 rounded-sm" />
         <h1 className="text-5xl font-bold text-primary text-center">Nextex</h1>
       </div>
       <div className="flex flex-col items-center gap-4">
