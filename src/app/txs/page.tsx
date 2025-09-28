@@ -7,7 +7,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 export default function TokenTxns() {
   const [txns, setTxns] = useState<number | null>(null);
   const [goalReached, setGoalReached] = useState(false);
-  const [uniqueUsers, setUniqueUsers] = useState<number | null>(null);
+  const [holders, setHolders] = useState<number | null>(null);
+  const [marketCap, setMarketCap] = useState<number | null>(null);
+  const [priceChange24h, setPriceChange24h] = useState<number | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const particlesRef = useRef<InstanceType<typeof FlameParticle>[]>([]);
@@ -179,18 +181,32 @@ export default function TokenTxns() {
         const data = await res.json();
         // We look for the total txs in the first pool (pools[0].txns.total)
         let currentTxns = 0;
+        let currentHolders = 0;
+        let currentMarketCap = 0;
+        let currentPriceChange24h = 0;
 
         if (data && Array.isArray(data.pools) && data.pools.length > 0) {
           const pool = data.pools[0];
           if (pool.txns && typeof pool.txns.total === "number") {
             currentTxns = pool.txns.total;
           }
+          if (pool.marketCap && typeof pool.marketCap.usd === "number") {
+            currentMarketCap = pool.marketCap.usd;
+          }
+        }
+
+        // Get holders count and price change from root level
+        if (data.holders && typeof data.holders === "number") {
+          currentHolders = data.holders;
+        }
+        if (data.events && data.events["24h"] && typeof data.events["24h"].priceChangePercentage === "number") {
+          currentPriceChange24h = data.events["24h"].priceChangePercentage;
         }
 
         setTxns(currentTxns);
-
-        // Simulate unique users (in real app, this would come from API)
-        setUniqueUsers(Math.floor(currentTxns * 0.3)); // Assume 30% of txns are unique users
+        setHolders(currentHolders);
+        setMarketCap(currentMarketCap);
+        setPriceChange24h(currentPriceChange24h);
 
         if (currentTxns >= GOAL) {
           setGoalReached(true);
@@ -293,12 +309,24 @@ export default function TokenTxns() {
             {txns?.toLocaleString() || 0} / {GOAL.toLocaleString()} txs
           </div>
 
-          {/* Unique Users */}
-          <div className="mb-6">
-            <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 inline-block">
-              <div className="text-orange-200 font-semibold text-center">Unique Users</div>
-              <div className="text-white text-xl font-bold text-center">
-                {uniqueUsers ? uniqueUsers.toLocaleString() : 'Loading...'}
+          {/* Stats */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-6 justify-center">
+            <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 text-center">
+              <div className="text-orange-200 font-semibold text-sm">Holders</div>
+              <div className="text-white text-xl font-bold">
+                {holders ? holders.toLocaleString() : 'Loading...'}
+              </div>
+            </div>
+            <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 text-center">
+              <div className="text-orange-200 font-semibold text-sm">Market Cap</div>
+              <div className="text-white text-xl font-bold">
+                {marketCap ? `$${marketCap.toLocaleString()}` : 'Loading...'}
+              </div>
+            </div>
+            <div className="bg-black/30 backdrop-blur-sm rounded-lg p-4 text-center">
+              <div className="text-orange-200 font-semibold text-sm">24h Change</div>
+              <div className={`text-xl font-bold ${priceChange24h && priceChange24h >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {priceChange24h ? `${priceChange24h.toFixed(2)}%` : 'Loading...'}
               </div>
             </div>
           </div>
